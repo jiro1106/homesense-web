@@ -34,7 +34,8 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
     const panelWidth = () => window.innerWidth;
     const maxOffset = () => panelWidth() * (count - 1);
 
-    const EASE = 0.12; // glide speed: higher = snappier, lower = floatier
+    const EASE = 0.14; // glide speed: higher = snappier, lower = floatier
+    const SPEED = 1.6; // wheel-delta multiplier so a section isn't a long grind
     const SNAP_PX = 0.5; // settle threshold; below this we land exactly on target
 
     const render = () => {
@@ -83,7 +84,15 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
         Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       if (delta === 0) return;
       e.preventDefault();
-      targetRef.current = clampScroll(targetRef.current + delta, 0, maxOffset());
+      // Free, eased scroll: accumulate the wheel delta into a free-floating
+      // target (no panel snapping) and let the rAF loop lerp the track toward
+      // it. This keeps motion smooth without the per-notch jumpiness of a
+      // direct 1:1 transform.
+      targetRef.current = clampScroll(
+        targetRef.current + delta * SPEED,
+        0,
+        maxOffset()
+      );
       startLoop();
     };
 
