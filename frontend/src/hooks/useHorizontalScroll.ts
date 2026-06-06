@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { clampScroll, getActivePanel } from "../lib/scroll";
+import { clampScroll, getActivePanel, stepToward } from "../lib/scroll";
 
 type UseHorizontalScroll = {
   /** Ref to attach to the moving track element. */
@@ -20,6 +20,8 @@ type UseHorizontalScroll = {
 export function useHorizontalScroll(count: number): UseHorizontalScroll {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const offsetRef = useRef(0);
+  const targetRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
   const goToRef = useRef<(index: number) => void>(() => {});
@@ -32,20 +34,46 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
     const panelWidth = () => window.innerWidth;
     const maxOffset = () => panelWidth() * (count - 1);
 
-    const apply = (smooth = false) => {
+    const EASE = 0.12; // glide speed: higher = snappier, lower = floatier
+    const SNAP_PX = 0.5; // settle threshold; below this we land exactly on target
+
+    const render = () => {
       const track = trackRef.current;
       if (!track) return;
       const max = maxOffset();
-      track.style.transition =
-        smooth && !prefersReduced() ? "transform 500ms ease-out" : "none";
       track.style.transform = `translateX(-${offsetRef.current}px)`;
       setActive(getActivePanel(offsetRef.current, panelWidth(), count));
       setProgress(max > 0 ? offsetRef.current / max : 0);
     };
 
-    const goTo = (index: number, smooth = true) => {
-      offsetRef.current = clampScroll(index, 0, count - 1) * panelWidth();
-      apply(smooth);
+    const tick = () => {
+      // Reduced motion: jump straight to the target, no glide.
+      if (prefersReduced()) {
+        offsetRef.current = targetRef.current;
+        render();
+        rafRef.current = null;
+        return;
+      }
+      offsetRef.current = stepToward(offsetRef.current, targetRef.current, EASE);
+      if (Math.abs(targetRef.current - offsetRef.current) < SNAP_PX) {
+        offsetRef.current = targetRef.current;
+        render();
+        rafRef.current = null;
+        return;
+      }
+      render();
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    const startLoop = () => {
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    const goTo = (index: number) => {
+      targetRef.current = clampScroll(index, 0, count - 1) * panelWidth();
+      startLoop();
     };
 
     const onWheel = (e: WheelEvent) => {
@@ -55,12 +83,8 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
         Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       if (delta === 0) return;
       e.preventDefault();
-      offsetRef.current = clampScroll(
-        offsetRef.current + delta,
-        0,
-        maxOffset()
-      );
-      apply(false);
+      targetRef.current = clampScroll(targetRef.current + delta, 0, maxOffset());
+      startLoop();
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -86,7 +110,12 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
       // Below the desktop breakpoint the panels stack vertically; clear any
       // leftover horizontal offset so the mobile stack isn't shifted.
       if (!isDesktop()) {
+        if (rafRef.current !== null) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
         offsetRef.current = 0;
+        targetRef.current = 0;
         if (track) track.style.transform = "none";
         setActive(0);
         setProgress(0);
@@ -94,7 +123,8 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
       }
       // Re-snap to the active panel so resizing keeps alignment.
       const idx = getActivePanel(offsetRef.current, panelWidth(), count);
-      goTo(idx, false);
+      targetRef.current = clampScroll(idx, 0, count - 1) * panelWidth();
+      startLoop();
     };
 
     goToRef.current = (index: number) => goTo(index);
@@ -106,6 +136,10 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
     };
   }, [count]);
 
