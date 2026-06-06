@@ -1,36 +1,36 @@
-import { motion } from "framer-motion";
 import { Panel } from "./Panel";
 import { YellowButton } from "../YellowButton";
+import { Reveal, RevealGroup } from "../Reveal";
 
 /**
- * Panel 4. Thesis credit close with clear text hierarchy: primary line, then
- * institution/year, then authors, then actions. Minimal and formal.
+ * Panel 4. Thesis credit close with clear text hierarchy. The lines reveal in a
+ * gentle top-to-bottom cascade.
  */
 export function ThesisFooter() {
   return (
     <Panel className="md:justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-2xl"
-      >
+      <RevealGroup className="max-w-2xl">
         {/* Primary */}
-        <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
-          A thesis project
-        </h2>
+        <Reveal>
+          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+            A thesis project
+          </h2>
+        </Reveal>
         {/* Secondary */}
-        <p className="mt-4 text-xl text-ink/70">
-          HomeSense — [University Name], [Year]
-        </p>
+        <Reveal className="mt-4">
+          <p className="text-xl text-ink/70">
+            HomeSense — [University Name], [Year]
+          </p>
+        </Reveal>
         {/* Tertiary */}
-        <p className="mt-2 text-base text-ink/50">
-          By [Author One], [Author Two], [Author Three]
-        </p>
+        <Reveal className="mt-2">
+          <p className="text-base text-ink/50">
+            By [Author One], [Author Two], [Author Three]
+          </p>
+        </Reveal>
 
         {/* Actions */}
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <Reveal className="mt-8 flex flex-wrap items-center gap-4">
           <YellowButton href="#download">Download APK</YellowButton>
           <a
             href="#contact"
@@ -38,12 +38,14 @@ export function ThesisFooter() {
           >
             Contact the team
           </a>
-        </div>
+        </Reveal>
 
-        <p className="mt-12 text-xs text-ink/40">
-          © [Year] HomeSense. Built as an undergraduate thesis.
-        </p>
-      </motion.div>
+        <Reveal className="mt-12">
+          <p className="text-xs text-ink/40">
+            © [Year] HomeSense. Built as an undergraduate thesis.
+          </p>
+        </Reveal>
+      </RevealGroup>
     </Panel>
   );
 }
