@@ -1,22 +1,17 @@
-import { motion } from "framer-motion";
 import { Panel } from "./Panel";
 import { YellowButton } from "../YellowButton";
 import { Placeholder } from "../Placeholder";
+import { Reveal, RevealGroup } from "../Reveal";
 
 /**
  * Panel 1. Big tagline on the left, phone mockup on the right (stacked on
- * mobile). No eyebrow text above the headline.
+ * mobile). The two columns reveal as a cascade when the panel comes into view.
  */
 export function Hero() {
   return (
     <Panel>
-      <div className="grid items-center gap-12 md:grid-cols-2 md:gap-8">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+      <RevealGroup className="grid items-center gap-12 md:grid-cols-2 md:gap-8">
+        <Reveal>
           <h1 className="font-display text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
             Monitor every watt at home.
           </h1>
@@ -28,21 +23,15 @@ export function Hero() {
             <YellowButton href="#download">Download APK</YellowButton>
             <span className="text-sm text-ink/50">scroll to explore →</span>
           </div>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-          className="flex justify-center"
-        >
+        <Reveal className="flex justify-center">
           <Placeholder
             name="phone-hero.png"
             className="aspect-[9/19] w-56 sm:w-64 lg:w-72"
           />
-        </motion.div>
-      </div>
+        </Reveal>
+      </RevealGroup>
     </Panel>
   );
 }
