@@ -17,7 +17,7 @@ describe("fadeUp", () => {
   });
 
   it("ends opaque, in place, and unblurred", () => {
-    const show = fadeUp.show as {
+    const show = fadeUp.show as unknown as {
       opacity: number;
       y: number;
       filter: string;
@@ -34,7 +34,7 @@ describe("fadeUp", () => {
 describe("fadeUpReduced", () => {
   it("animates opacity only (no movement or blur)", () => {
     expect(fadeUpReduced.hidden).toEqual({ opacity: 0 });
-    const show = fadeUpReduced.show as {
+    const show = fadeUpReduced.show as unknown as {
       opacity: number;
       transition: { duration: number };
     };
@@ -46,7 +46,7 @@ describe("fadeUpReduced", () => {
 
 describe("revealGroup", () => {
   it("staggers its children when shown", () => {
-    const show = revealGroup.show as {
+    const show = revealGroup.show as unknown as {
       transition: { staggerChildren: number; delayChildren: number };
     };
     expect(show.transition.staggerChildren).toBe(0.09);
