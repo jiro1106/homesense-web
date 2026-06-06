@@ -16,3 +16,15 @@ export function getActivePanel(
   const raw = Math.round(scrollX / panelWidth);
   return clampScroll(raw, 0, count - 1);
 }
+
+/**
+ * One frame of linear interpolation: move `current` a fraction (`ease`, 0..1)
+ * of the remaining distance toward `target`. Pure — used by the scroll rAF loop.
+ */
+export function stepToward(
+  current: number,
+  target: number,
+  ease: number
+): number {
+  return current + (target - current) * ease;
+}

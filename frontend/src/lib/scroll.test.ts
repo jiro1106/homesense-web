@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { clampScroll, getActivePanel } from "./scroll";
+import { clampScroll, getActivePanel, stepToward } from "./scroll";
 
 describe("clampScroll", () => {
   it("returns the value when within range", () => {
@@ -26,5 +26,29 @@ describe("getActivePanel", () => {
   });
   it("never goes below 0", () => {
     expect(getActivePanel(-500, 1000, 4)).toBe(0);
+  });
+});
+
+describe("stepToward", () => {
+  it("moves a fraction of the way toward the target", () => {
+    // 0 -> 100 with ease 0.1 should land at 10
+    expect(stepToward(0, 100, 0.1)).toBeCloseTo(10);
+  });
+
+  it("is a no-op when already at the target", () => {
+    expect(stepToward(50, 50, 0.12)).toBe(50);
+  });
+
+  it("converges toward the target over repeated calls", () => {
+    let current = 0;
+    for (let i = 0; i < 100; i++) {
+      current = stepToward(current, 100, 0.12);
+    }
+    expect(current).toBeCloseTo(100, 1);
+  });
+
+  it("works when moving in the negative direction", () => {
+    // 100 -> 0 with ease 0.25 should land at 75
+    expect(stepToward(100, 0, 0.25)).toBeCloseTo(75);
   });
 });
