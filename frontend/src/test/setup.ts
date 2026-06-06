@@ -9,3 +9,18 @@ if (typeof globalThis.IntersectionObserver === "undefined") {
     disconnect() {}
   } as unknown as typeof IntersectionObserver;
 }
+
+// framer-motion's useReducedMotion calls window.matchMedia, which jsdom does
+// not implement. Provide a stub that reports "no preference".
+if (typeof window.matchMedia === "undefined") {
+  window.matchMedia = ((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+}
