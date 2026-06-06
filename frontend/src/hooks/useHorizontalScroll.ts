@@ -26,22 +26,26 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
 
   useEffect(() => {
     const isDesktop = () => window.matchMedia("(min-width: 768px)").matches;
+    const prefersReduced = () =>
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const panelWidth = () => window.innerWidth;
     const maxOffset = () => panelWidth() * (count - 1);
 
-    const apply = () => {
+    const apply = (smooth = false) => {
       const track = trackRef.current;
       if (!track) return;
       const max = maxOffset();
+      track.style.transition =
+        smooth && !prefersReduced() ? "transform 500ms ease-out" : "none";
       track.style.transform = `translateX(-${offsetRef.current}px)`;
       setActive(getActivePanel(offsetRef.current, panelWidth(), count));
       setProgress(max > 0 ? offsetRef.current / max : 0);
     };
 
-    const goTo = (index: number) => {
+    const goTo = (index: number, smooth = true) => {
       offsetRef.current = clampScroll(index, 0, count - 1) * panelWidth();
-      apply();
+      apply(smooth);
     };
 
     const onWheel = (e: WheelEvent) => {
@@ -56,7 +60,7 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
         0,
         maxOffset()
       );
-      apply();
+      apply(false);
     };
 
     const onKey = (e: KeyboardEvent) => {
@@ -78,12 +82,22 @@ export function useHorizontalScroll(count: number): UseHorizontalScroll {
     };
 
     const onResize = () => {
+      const track = trackRef.current;
+      // Below the desktop breakpoint the panels stack vertically; clear any
+      // leftover horizontal offset so the mobile stack isn't shifted.
+      if (!isDesktop()) {
+        offsetRef.current = 0;
+        if (track) track.style.transform = "none";
+        setActive(0);
+        setProgress(0);
+        return;
+      }
       // Re-snap to the active panel so resizing keeps alignment.
       const idx = getActivePanel(offsetRef.current, panelWidth(), count);
-      goTo(idx);
+      goTo(idx, false);
     };
 
-    goToRef.current = goTo;
+    goToRef.current = (index: number) => goTo(index);
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
