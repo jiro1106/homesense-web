@@ -31,7 +31,7 @@ export function Hero() {
           <img
             src={phoneHero}
             alt="HomeSense app running on a phone"
-            className="aspect-[9/19] w-64 object-contain sm:w-72 lg:w-80"
+            className="aspect-9/19 w-64 object-contain sm:w-72 lg:w-80"
           />
         </Reveal>
       </RevealGroup>

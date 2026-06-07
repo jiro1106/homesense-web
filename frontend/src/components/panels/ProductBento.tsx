@@ -55,33 +55,31 @@ function LiveFeedTile() {
         transition={liftSpring}
         className={"flex flex-col overflow-hidden " + tileBase}
       >
-        <div>
-          <IconTile icon={Activity} label="Real-time feed" />
-          <h3 className="mt-4 font-display text-lg font-semibold">
-            Real-time feed
-          </h3>
+        <div className="flex items-center gap-3">
+          <IconTile icon={Activity} label="Real-time feed" size="sm" />
+          <h3 className="font-display text-lg font-semibold">Real-time feed</h3>
         </div>
 
-        <div className="mt-4 flex-1">
+        <div className="mt-3 flex-1">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="text-[11px] font-semibold uppercase tracking-wide text-ink/40">
-                <th className="pb-2 font-semibold">Appliance</th>
-                <th className="hidden pb-2 font-semibold sm:table-cell">
+                <th className="pb-1.5 font-semibold">Appliance</th>
+                <th className="hidden pb-1.5 font-semibold sm:table-cell">
                   Location
                 </th>
-                <th className="pb-2 font-semibold">Status</th>
-                <th className="pb-2 text-right font-semibold">Usage</th>
+                <th className="pb-1.5 font-semibold">Status</th>
+                <th className="pb-1.5 text-right font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
               {APPLIANCES.map((a, i) => (
                 <tr key={a.name} className="border-t border-ink/5">
-                  <td className="py-2 font-medium">{a.name}</td>
-                  <td className="hidden py-2 text-ink/55 sm:table-cell">
+                  <td className="py-1.5 font-medium">{a.name}</td>
+                  <td className="hidden py-1.5 text-ink/55 sm:table-cell">
                     {a.location}
                   </td>
-                  <td className="py-2">
+                  <td className="py-1.5">
                     <span
                       className={
                         "inline-flex items-center gap-1.5 text-xs font-semibold " +
@@ -97,7 +95,7 @@ function LiveFeedTile() {
                       {a.on ? "On" : "Off"}
                     </span>
                   </td>
-                  <td className="py-2 text-right tabular-nums">
+                  <td className="py-1.5 text-right tabular-nums">
                     {usage[i].toFixed(2)}
                     <span className="ml-1 text-xs text-ink/40">kWh</span>
                   </td>
@@ -107,7 +105,7 @@ function LiveFeedTile() {
           </table>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t border-ink/10 pt-3 text-sm">
+        <div className="mt-2 flex items-center justify-between border-t border-ink/10 pt-2 text-sm">
           <span className="text-ink/50">Total today</span>
           <span className="font-display font-bold tabular-nums">
             {total.toFixed(2)}
@@ -129,7 +127,7 @@ function BillPredictionTile() {
         <div className="flex h-full items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <IconTile icon={TrendingUp} label="Bill prediction" />
+              <IconTile icon={TrendingUp} label="Bill prediction" size="sm" />
               <h3 className="font-display text-lg font-semibold">
                 Bill prediction
               </h3>
@@ -186,7 +184,7 @@ function RecommendationsTile() {
     <Reveal className="h-full sm:col-span-2 lg:col-span-6">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <div className="flex items-center gap-3">
-          <IconTile icon={Lightbulb} label="Recommendations" />
+          <IconTile icon={Lightbulb} label="Recommendations" size="sm" />
           <h3 className="font-display text-lg font-semibold">Recommendations</h3>
         </div>
         <p className="mt-3 text-sm text-ink/55">Smart tips to trim your usage.</p>
@@ -218,8 +216,8 @@ function MiniTile({ icon, label, copy }: SmallTile) {
   return (
     <Reveal className="h-full lg:col-span-4">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
-        <IconTile icon={icon} label={label} />
-        <div className="mt-4">
+        <IconTile icon={icon} label={label} size="sm" />
+        <div className="mt-3">
           <h3 className="font-display text-base font-semibold">{label}</h3>
           <p className="mt-1 text-sm text-ink/55">{copy}</p>
         </div>
@@ -250,7 +248,7 @@ export function ProductBento() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-10 grid auto-rows-[minmax(120px,1fr)] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12">
+      <RevealGroup className="mt-[clamp(1.5rem,4vh,2.5rem)] grid auto-rows-[minmax(88px,1fr)] grid-flow-dense grid-cols-1 gap-[clamp(0.75rem,1.6vh,1rem)] sm:grid-cols-2 md:auto-rows-[minmax(88px,clamp(8rem,18vh,10.5rem))] lg:grid-cols-12">
         <LiveFeedTile />
         <BillPredictionTile />
         <RecommendationsTile />

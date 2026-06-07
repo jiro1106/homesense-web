@@ -14,7 +14,7 @@ export function Panel({ children, className = "" }: PanelProps) {
   return (
     <section
       className={
-        "flex min-h-svh w-full shrink-0 flex-col justify-center px-6 py-20 md:h-svh md:w-screen md:px-16 lg:px-24 " +
+        "flex min-h-svh w-full shrink-0 flex-col justify-center px-6 pb-16 pt-28 md:h-svh md:w-screen md:px-16 md:pb-[clamp(2.5rem,6vh,4rem)] md:pt-[clamp(6rem,11vh,9rem)] lg:px-24 " +
         className
       }
     >

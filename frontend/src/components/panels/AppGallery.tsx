@@ -72,7 +72,7 @@ export function AppGallery() {
         </Reveal>
       </RevealGroup>
 
-      <div className="relative mt-12">
+      <div className="relative mt-[clamp(2rem,5vh,3rem)]">
         <CarouselButton
           label="Previous screen"
           onClick={() => page(-1)}
