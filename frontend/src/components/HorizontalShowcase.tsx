@@ -20,7 +20,12 @@ export function HorizontalShowcase() {
 
   return (
     <main className="relative md:h-svh md:overflow-hidden">
-      <Navbar />
+      <Navbar
+        onHome={() => {
+          goTo(0);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
       <ProgressNav
         count={PANEL_COUNT}
         active={active}

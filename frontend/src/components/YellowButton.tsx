@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 type YellowButtonProps = {
   children: ReactNode;
   href?: string;
+  target?: string;
   onClick?: () => void;
   className?: string;
 };
@@ -15,6 +16,7 @@ type YellowButtonProps = {
 export function YellowButton({
   children,
   href,
+  target,
   onClick,
   className = "",
 }: YellowButtonProps) {
@@ -26,6 +28,8 @@ export function YellowButton({
     return (
       <motion.a
         href={href}
+        target={target}
+        rel={target === "_blank" ? "noreferrer" : undefined}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
         className={classes}

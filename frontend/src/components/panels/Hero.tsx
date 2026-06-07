@@ -1,6 +1,7 @@
 import { Panel } from "./Panel";
 import { YellowButton } from "../YellowButton";
 import { Reveal, RevealGroup } from "../Reveal";
+import { DOWNLOAD_APK_URL } from "../../lib/links";
 import phoneHero from "../../assets/app-screen-1.png";
 
 /**
@@ -16,11 +17,13 @@ export function Hero() {
             Monitor every watt at home
           </h1>
           <p className="mt-6 max-w-md text-lg text-ink/60">
-            HomeSense is an IoT system that tracks your household electricity
-            use in real time, straight from your phone.
+            See exactly how much electricity your home is using, live, right on
+            your phone.
           </p>
           <div className="mt-8">
-            <YellowButton href="#download">Download APK</YellowButton>
+            <YellowButton href={DOWNLOAD_APK_URL} target="_blank">
+              Download APK
+            </YellowButton>
           </div>
         </Reveal>
 

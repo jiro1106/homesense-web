@@ -3,17 +3,16 @@ import { render, screen } from "@testing-library/react";
 import { ThesisFooter } from "./ThesisFooter";
 
 describe("ThesisFooter", () => {
-  it("renders the primary credit heading", () => {
+  it("renders the formal thesis title as the primary heading", () => {
     render(<ThesisFooter />);
     expect(
-      screen.getByRole("heading", { name: /a thesis project/i })
+      screen.getByRole("heading", { name: /iot-based household electricity monitoring system/i })
     ).toBeInTheDocument();
   });
 
-  it("renders the download CTA", () => {
+  it("renders the contact CTA as a mailto link", () => {
     render(<ThesisFooter />);
-    expect(
-      screen.getByRole("link", { name: /download apk/i })
-    ).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: /contact the team/i });
+    expect(link).toHaveAttribute("href", "mailto:app.homesense@gmail.com");
   });
 });

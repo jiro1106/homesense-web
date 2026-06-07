@@ -14,7 +14,7 @@ import { IconTile } from "../IconTile";
 import { Reveal, RevealGroup } from "../Reveal";
 
 const tileBase =
-  "group h-full rounded-2xl border border-ink/10 bg-paper p-5 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20 hover:shadow-xl hover:shadow-ink/10";
+  "group h-full rounded-2xl border border-ink/10 bg-paper p-5 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20";
 const hoverLift = { y: -6 };
 const liftSpring = { type: "spring", stiffness: 300, damping: 24 } as const;
 
@@ -49,28 +49,17 @@ function LiveFeedTile() {
   const total = usage.reduce((sum, u) => sum + u, 0);
 
   return (
-    <Reveal className="h-full sm:col-span-2 sm:row-span-2">
+    <Reveal className="h-full sm:col-span-2 sm:row-span-2 lg:col-span-6 lg:row-span-2">
       <motion.div
         whileHover={hoverLift}
         transition={liftSpring}
         className={"flex flex-col overflow-hidden " + tileBase}
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
-              <span className="relative flex h-2 w-2">
-                {!reduced && (
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-                )}
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              Live
-            </span>
-            <h3 className="mt-1 font-display text-lg font-semibold">
-              Real-time feed
-            </h3>
-          </div>
-          <Activity className="h-5 w-5 text-ink/30" aria-hidden />
+        <div>
+          <IconTile icon={Activity} label="Real-time feed" />
+          <h3 className="mt-4 font-display text-lg font-semibold">
+            Real-time feed
+          </h3>
         </div>
 
         <div className="mt-4 flex-1">
@@ -122,7 +111,7 @@ function LiveFeedTile() {
           <span className="text-ink/50">Total today</span>
           <span className="font-display font-bold tabular-nums">
             {total.toFixed(2)}
-            <span className="ml-1 text-xs font-semibold text-icon-stroke">
+            <span className="ml-1 text-xs font-semibold text-ink">
               kWh
             </span>
           </span>
@@ -135,7 +124,7 @@ function LiveFeedTile() {
 /** Wide tile (2×1): projected next bill with an upward forecast sparkline. */
 function BillPredictionTile() {
   return (
-    <Reveal className="h-full sm:col-span-2">
+    <Reveal className="h-full sm:col-span-2 lg:col-span-6">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <div className="flex h-full items-center justify-between gap-4">
           <div>
@@ -162,6 +151,17 @@ function BillPredictionTile() {
             className="hidden h-16 w-32 shrink-0 sm:block"
             aria-hidden
           >
+            {/* horizontal gridlines for the trend to read against */}
+            <g stroke="var(--color-ink)" strokeOpacity="0.1" strokeWidth="1">
+              <line x1="0" y1="16" x2="120" y2="16" />
+              <line x1="0" y1="32" x2="120" y2="32" />
+              <line x1="0" y1="48" x2="120" y2="48" />
+            </g>
+            {/* baseline + left axis */}
+            <g stroke="var(--color-ink)" strokeOpacity="0.2" strokeWidth="1">
+              <line x1="0" y1="63" x2="120" y2="63" />
+              <line x1="1" y1="0" x2="1" y2="63" />
+            </g>
             <polyline
               points="0,52 24,46 48,48 72,32 96,28 120,12"
               fill="none"
@@ -183,7 +183,7 @@ const TIPS = ["Run laundry off-peak", "Unplug idle chargers"];
 /** Wide tile (2×1): actionable saving tips rendered as chips. */
 function RecommendationsTile() {
   return (
-    <Reveal className="h-full sm:col-span-2">
+    <Reveal className="h-full sm:col-span-2 lg:col-span-6">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <div className="flex items-center gap-3">
           <IconTile icon={Lightbulb} label="Recommendations" />
@@ -216,7 +216,7 @@ const smallTiles: SmallTile[] = [
 /** Minor tier (1×1): the supporting features. */
 function MiniTile({ icon, label, copy }: SmallTile) {
   return (
-    <Reveal className="h-full">
+    <Reveal className="h-full lg:col-span-4">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <IconTile icon={icon} label={label} />
         <div className="mt-4">
@@ -250,7 +250,7 @@ export function ProductBento() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-10 grid auto-rows-[minmax(120px,1fr)] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <RevealGroup className="mt-10 grid auto-rows-[minmax(120px,1fr)] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12">
         <LiveFeedTile />
         <BillPredictionTile />
         <RecommendationsTile />

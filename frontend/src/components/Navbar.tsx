@@ -1,4 +1,5 @@
 import { YellowButton } from "./YellowButton";
+import { DOWNLOAD_APK_URL } from "../lib/links";
 import logoBulb from "../assets/logo.png";
 
 /** Android robot glyph, sized to sit inline before the button label. */
@@ -10,20 +11,32 @@ function AndroidIcon({ className = "" }: { className?: string }) {
   );
 }
 
+type NavbarProps = {
+  /** Jump back to the hero section from anywhere in the showcase. */
+  onHome?: () => void;
+};
+
 /**
  * Fixed top navbar that stays put while the showcase scrolls. Left side is the
  * HomeSense wordmark built from the bulb logo as the "o"; right side is the
  * Android-only Download APK call to action. Horizontal padding matches Panel so
  * the bar lines up with the page margins.
  */
-export function Navbar() {
+export function Navbar({ onHome }: NavbarProps = {}) {
+  const handleHome = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!onHome) return;
+    e.preventDefault();
+    onHome();
+  };
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-6 py-4 backdrop-blur-sm md:px-16 lg:px-24">
       <nav className="mx-auto flex w-full max-w-6xl items-center justify-between">
         <a
           href="#"
+          onClick={handleHome}
           aria-label="HomeSense home"
-          className="flex items-center font-display text-2xl font-extrabold tracking-tight text-ink"
+          className="flex cursor-pointer items-center font-display text-2xl font-extrabold tracking-tight text-ink"
         >
           <span>H</span>
           <img
@@ -34,7 +47,11 @@ export function Navbar() {
           <span>meSense</span>
         </a>
 
-        <YellowButton href="#download" className="gap-2 px-5 py-2.5 text-sm">
+        <YellowButton
+          href={DOWNLOAD_APK_URL}
+          target="_blank"
+          className="gap-2 px-5 py-2.5 text-sm"
+        >
           <AndroidIcon className="h-5 w-5" />
           Download APK
         </YellowButton>
