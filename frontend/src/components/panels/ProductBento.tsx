@@ -1,22 +1,238 @@
-import { Activity, History, Wallet, BellRing } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import {
+  Activity,
+  History,
+  Wallet,
+  TrendingUp,
+  Lightbulb,
+  BellRing,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Panel } from "./Panel";
-import { Placeholder } from "../Placeholder";
 import { IconTile } from "../IconTile";
 import { Reveal, RevealGroup } from "../Reveal";
 
-const cellBase =
-  "rounded-2xl border border-ink/10 bg-paper p-5 flex flex-col justify-between";
+const tileBase =
+  "group h-full rounded-2xl border border-ink/10 bg-paper p-5 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20 hover:shadow-xl hover:shadow-ink/10";
+const hoverLift = { y: -6 };
+const liftSpring = { type: "spring", stiffness: 300, damping: 24 } as const;
 
-const features = [
-  { icon: Activity, label: "Real-time feed", copy: "Live wattage as it happens." },
+/** Generic appliances the live feed simulates. `step` is the per-tick kWh
+ *  increment while the appliance is on, so usage accrues like a real meter. */
+const APPLIANCES = [
+  { name: "Refrigerator", location: "Kitchen", on: true, base: 0.91, step: 0.01 },
+  { name: "Air Conditioner", location: "Bedroom", on: true, base: 1.24, step: 0.02 },
+  { name: "Wi-Fi Router", location: "Living Room", on: true, base: 0.09, step: 0.004 },
+  { name: "Washing Machine", location: "Laundry", on: false, base: 0, step: 0 },
+];
+
+/**
+ * Hero tile (2×2): a live "All appliances" table mirroring the app screen. Each
+ * powered-on appliance accrues kWh on a ticking interval; the total updates with
+ * it. Goes still under prefers-reduced-motion.
+ */
+function LiveFeedTile() {
+  const reduced = useReducedMotion();
+  const [usage, setUsage] = useState(() => APPLIANCES.map((a) => a.base));
+
+  useEffect(() => {
+    if (reduced) return;
+    const id = setInterval(() => {
+      setUsage((prev) =>
+        prev.map((u, i) => (APPLIANCES[i].on ? u + APPLIANCES[i].step : u))
+      );
+    }, 1800);
+    return () => clearInterval(id);
+  }, [reduced]);
+
+  const total = usage.reduce((sum, u) => sum + u, 0);
+
+  return (
+    <Reveal className="h-full sm:col-span-2 sm:row-span-2">
+      <motion.div
+        whileHover={hoverLift}
+        transition={liftSpring}
+        className={"flex flex-col overflow-hidden " + tileBase}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
+              <span className="relative flex h-2 w-2">
+                {!reduced && (
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                )}
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              Live
+            </span>
+            <h3 className="mt-1 font-display text-lg font-semibold">
+              Real-time feed
+            </h3>
+          </div>
+          <Activity className="h-5 w-5 text-ink/30" aria-hidden />
+        </div>
+
+        <div className="mt-4 flex-1">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="text-[11px] font-semibold uppercase tracking-wide text-ink/40">
+                <th className="pb-2 font-semibold">Appliance</th>
+                <th className="hidden pb-2 font-semibold sm:table-cell">
+                  Location
+                </th>
+                <th className="pb-2 font-semibold">Status</th>
+                <th className="pb-2 text-right font-semibold">Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {APPLIANCES.map((a, i) => (
+                <tr key={a.name} className="border-t border-ink/5">
+                  <td className="py-2 font-medium">{a.name}</td>
+                  <td className="hidden py-2 text-ink/55 sm:table-cell">
+                    {a.location}
+                  </td>
+                  <td className="py-2">
+                    <span
+                      className={
+                        "inline-flex items-center gap-1.5 text-xs font-semibold " +
+                        (a.on ? "text-emerald-600" : "text-rose-500")
+                      }
+                    >
+                      <span
+                        className={
+                          "h-1.5 w-1.5 rounded-full " +
+                          (a.on ? "bg-emerald-500" : "bg-rose-400")
+                        }
+                      />
+                      {a.on ? "On" : "Off"}
+                    </span>
+                  </td>
+                  <td className="py-2 text-right tabular-nums">
+                    {usage[i].toFixed(2)}
+                    <span className="ml-1 text-xs text-ink/40">kWh</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between border-t border-ink/10 pt-3 text-sm">
+          <span className="text-ink/50">Total today</span>
+          <span className="font-display font-bold tabular-nums">
+            {total.toFixed(2)}
+            <span className="ml-1 text-xs font-semibold text-icon-stroke">
+              kWh
+            </span>
+          </span>
+        </div>
+      </motion.div>
+    </Reveal>
+  );
+}
+
+/** Wide tile (2×1): projected next bill with an upward forecast sparkline. */
+function BillPredictionTile() {
+  return (
+    <Reveal className="h-full sm:col-span-2">
+      <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
+        <div className="flex h-full items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3">
+              <IconTile icon={TrendingUp} label="Bill prediction" />
+              <h3 className="font-display text-lg font-semibold">
+                Bill prediction
+              </h3>
+            </div>
+            <p className="mt-3 text-sm text-ink/55">
+              Forecasts your next bill with linear regression.
+            </p>
+            <p className="mt-3">
+              <span className="font-display text-2xl font-extrabold tabular-nums">
+                ₱346
+              </span>
+              <span className="ml-2 text-xs font-semibold text-ink/45">
+                projected this month
+              </span>
+            </p>
+          </div>
+          <svg
+            viewBox="0 0 120 64"
+            className="hidden h-16 w-32 shrink-0 sm:block"
+            aria-hidden
+          >
+            <polyline
+              points="0,52 24,46 48,48 72,32 96,28 120,12"
+              fill="none"
+              stroke="var(--color-accent)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <circle cx="120" cy="12" r="4" fill="var(--color-accent)" />
+          </svg>
+        </div>
+      </motion.div>
+    </Reveal>
+  );
+}
+
+const TIPS = ["Run laundry off-peak", "Unplug idle chargers"];
+
+/** Wide tile (2×1): actionable saving tips rendered as chips. */
+function RecommendationsTile() {
+  return (
+    <Reveal className="h-full sm:col-span-2">
+      <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
+        <div className="flex items-center gap-3">
+          <IconTile icon={Lightbulb} label="Recommendations" />
+          <h3 className="font-display text-lg font-semibold">Recommendations</h3>
+        </div>
+        <p className="mt-3 text-sm text-ink/55">Smart tips to trim your usage.</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {TIPS.map((tip) => (
+            <span
+              key={tip}
+              className="rounded-full bg-icon-tile px-3 py-1.5 text-xs font-semibold text-icon-stroke"
+            >
+              {tip}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+    </Reveal>
+  );
+}
+
+type SmallTile = { icon: LucideIcon; label: string; copy: string };
+
+const smallTiles: SmallTile[] = [
   { icon: History, label: "Usage history", copy: "Trends by day, week, month." },
   { icon: Wallet, label: "Cost estimate", copy: "See pesos, not just kWh." },
   { icon: BellRing, label: "Alerts", copy: "Spikes flagged instantly." },
 ];
 
+/** Minor tier (1×1): the supporting features. */
+function MiniTile({ icon, label, copy }: SmallTile) {
+  return (
+    <Reveal className="h-full">
+      <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
+        <IconTile icon={icon} label={label} />
+        <div className="mt-4">
+          <h3 className="font-display text-base font-semibold">{label}</h3>
+          <p className="mt-1 text-sm text-ink/55">{copy}</p>
+        </div>
+      </motion.div>
+    </Reveal>
+  );
+}
+
 /**
- * Panel 2. Tarsi-style bento grid: one large app screenshot plus four feature
- * cells. Heading/intro reveal first, then the grid cells cascade in.
+ * Panel 2. Importance-weighted bento: the three flagship features (real-time
+ * feed, bill prediction, recommendations) take the largest tiles; the rest sit
+ * in the minor tier. Each tile is tailored to its feature rather than a uniform
+ * card. Heading/intro reveal first, then the grid cascades in.
  */
 export function ProductBento() {
   return (
@@ -34,20 +250,12 @@ export function ProductBento() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-10 grid auto-rows-[minmax(120px,auto)] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Large screenshot spans 2 cols / 2 rows on wide screens. */}
-        <Reveal className="sm:col-span-2 lg:row-span-2">
-          <Placeholder name="app-dashboard.png" className="h-full min-h-64 w-full" />
-        </Reveal>
-
-        {features.map((f) => (
-          <Reveal key={f.label} className={cellBase}>
-            <IconTile icon={f.icon} label={f.label} />
-            <div className="mt-4">
-              <h3 className="font-display text-lg font-semibold">{f.label}</h3>
-              <p className="mt-1 text-sm text-ink/55">{f.copy}</p>
-            </div>
-          </Reveal>
+      <RevealGroup className="mt-10 grid auto-rows-[minmax(120px,1fr)] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <LiveFeedTile />
+        <BillPredictionTile />
+        <RecommendationsTile />
+        {smallTiles.map((t) => (
+          <MiniTile key={t.label} {...t} />
         ))}
       </RevealGroup>
     </Panel>

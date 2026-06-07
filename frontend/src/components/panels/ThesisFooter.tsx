@@ -16,11 +16,16 @@ export function ThesisFooter() {
             A thesis project
           </h2>
         </Reveal>
+        {/* Full formal title */}
+        <Reveal className="mt-4">
+          <p className="font-display text-xl font-semibold leading-snug text-ink/80 sm:text-2xl">
+            HomeSense: An IoT-Based Household Electricity Monitoring System with
+            Bill Prediction Using Linear Regression and Recommendation System
+          </p>
+        </Reveal>
         {/* Secondary */}
         <Reveal className="mt-4">
-          <p className="text-xl text-ink/70">
-            HomeSense — [University Name], [Year]
-          </p>
+          <p className="text-lg text-ink/60">[University Name], [Year]</p>
         </Reveal>
         {/* Tertiary */}
         <Reveal className="mt-2">

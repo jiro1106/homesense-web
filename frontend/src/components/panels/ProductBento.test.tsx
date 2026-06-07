@@ -10,14 +10,22 @@ describe("ProductBento", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the primary app screenshot placeholder", () => {
+  it("does not render an image placeholder", () => {
     render(<ProductBento />);
-    expect(screen.getByText("app-dashboard.png")).toBeInTheDocument();
+    expect(screen.queryByText("app-dashboard.png")).not.toBeInTheDocument();
   });
 
-  it("renders feature labels", () => {
+  it("renders every feature label", () => {
     render(<ProductBento />);
-    expect(screen.getByText(/real-time feed/i)).toBeInTheDocument();
-    expect(screen.getByText(/cost estimate/i)).toBeInTheDocument();
+    for (const label of [
+      /real-time feed/i,
+      /bill prediction/i,
+      /recommendations/i,
+      /usage history/i,
+      /cost estimate/i,
+      /alerts/i,
+    ]) {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    }
   });
 });

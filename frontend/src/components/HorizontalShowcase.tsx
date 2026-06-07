@@ -1,11 +1,14 @@
 import { useHorizontalScroll } from "../hooks/useHorizontalScroll";
+import { Navbar } from "./Navbar";
 import { ProgressNav } from "./ProgressNav";
+import { ScrollCue } from "./ScrollCue";
 import { Hero } from "./panels/Hero";
 import { ProductBento } from "./panels/ProductBento";
+import { AppGallery } from "./panels/AppGallery";
 import { HowItWorks } from "./panels/HowItWorks";
 import { ThesisFooter } from "./panels/ThesisFooter";
 
-const PANEL_COUNT = 4;
+const PANEL_COUNT = 5;
 
 /**
  * Top-level showcase. On desktop (>= md) the panels sit in a horizontal track
@@ -17,18 +20,21 @@ export function HorizontalShowcase() {
 
   return (
     <main className="relative md:h-svh md:overflow-hidden">
+      <Navbar />
       <ProgressNav
         count={PANEL_COUNT}
         active={active}
         progress={progress}
         onJump={goTo}
       />
+      <ScrollCue active={active} />
       <div
         ref={trackRef}
         className="flex flex-col will-change-transform md:h-svh md:flex-row md:flex-nowrap"
       >
         <Hero />
         <ProductBento />
+        <AppGallery />
         <HowItWorks />
         <ThesisFooter />
       </div>

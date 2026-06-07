@@ -18,8 +18,9 @@ describe("HowItWorks", () => {
     expect(screen.getByText("App")).toBeInTheDocument();
   });
 
-  it("renders tech-stack badges", () => {
+  it("renders tech-stack badges by plain name", () => {
     render(<HowItWorks />);
-    expect(screen.getByText("[ESP32]")).toBeInTheDocument();
+    expect(screen.getByText("Tuya Smart Plug")).toBeInTheDocument();
+    expect(screen.getByText("FastAPI")).toBeInTheDocument();
   });
 });

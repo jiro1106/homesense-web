@@ -13,8 +13,10 @@ describe("Hero", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the phone mockup placeholder", () => {
+  it("renders the phone mockup image", () => {
     render(<Hero />);
-    expect(screen.getByText("phone-hero.png")).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /homesense app running on a phone/i })
+    ).toBeInTheDocument();
   });
 });
