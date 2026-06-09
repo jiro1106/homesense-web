@@ -39,4 +39,22 @@ body {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+
+  .wire-charge {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Animated "charge" that glides along a Wire's accent trace. */
+@keyframes wire-flow {
+  to {
+    stroke-dashoffset: -612;
+  }
+}
+
+.wire-charge {
+  stroke-dasharray: 12 600;
+  filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.7));
+  animation: wire-flow 2.5s linear infinite;
 }
