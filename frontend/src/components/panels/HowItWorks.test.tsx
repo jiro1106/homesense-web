@@ -12,10 +12,20 @@ describe("HowItWorks", () => {
 
   it("renders all four accurate pipeline steps", () => {
     render(<HowItWorks />);
-    expect(screen.getByText("Smart Plug")).toBeInTheDocument();
-    expect(screen.getByText("Database Storage")).toBeInTheDocument();
-    expect(screen.getByText("API & Machine Learning")).toBeInTheDocument();
-    expect(screen.getByText("Mobile App")).toBeInTheDocument();
+    // Step labels render as headings; the "Built with" manifest reuses some of
+    // the same names as <dt> labels, so target the headings specifically.
+    expect(
+      screen.getByRole("heading", { name: "Smart Plug" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Database Storage" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "API & Machine Learning" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Mobile App" })
+    ).toBeInTheDocument();
   });
 
   it("wires the steps together with three connectors", () => {
@@ -26,7 +36,9 @@ describe("HowItWorks", () => {
 
   it("renders tech-stack badges by plain name", () => {
     render(<HowItWorks />);
-    expect(screen.getByText("Tuya Smart Plug")).toBeInTheDocument();
+    expect(
+      screen.getByText("2 Pin Flat 20A WiFi Tuya Smart Plug")
+    ).toBeInTheDocument();
     expect(screen.getByText("FastAPI")).toBeInTheDocument();
   });
 });
