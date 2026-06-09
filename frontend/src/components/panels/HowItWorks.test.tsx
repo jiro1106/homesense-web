@@ -10,12 +10,18 @@ describe("HowItWorks", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders all four pipeline steps", () => {
+  it("renders all four accurate pipeline steps", () => {
     render(<HowItWorks />);
-    expect(screen.getByText("Sensor")).toBeInTheDocument();
-    expect(screen.getByText("Gateway")).toBeInTheDocument();
-    expect(screen.getByText("Cloud")).toBeInTheDocument();
-    expect(screen.getByText("App")).toBeInTheDocument();
+    expect(screen.getByText("Smart Plug")).toBeInTheDocument();
+    expect(screen.getByText("Database Storage")).toBeInTheDocument();
+    expect(screen.getByText("API & Machine Learning")).toBeInTheDocument();
+    expect(screen.getByText("Mobile App")).toBeInTheDocument();
+  });
+
+  it("wires the steps together with three connectors", () => {
+    const { container } = render(<HowItWorks />);
+    // 3 Wire components between 4 nodes; each Wire has 2 svgs => 6 charge paths.
+    expect(container.querySelectorAll(".wire-charge")).toHaveLength(6);
   });
 
   it("renders tech-stack badges by plain name", () => {

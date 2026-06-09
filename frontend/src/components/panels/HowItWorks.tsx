@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
-import { Cpu, Router, Cloud, Smartphone } from "lucide-react";
+import { PlugZap, Database, BrainCircuit, Smartphone } from "lucide-react";
 import { Panel } from "./Panel";
 import { IconTile } from "../IconTile";
 import { Reveal, RevealGroup } from "../Reveal";
+import { Wire } from "../Wire";
 
 const steps = [
-  { icon: Cpu, label: "Sensor", copy: "Clamp meter reads current draw." },
-  { icon: Router, label: "Gateway", copy: "Microcontroller relays the data." },
-  { icon: Cloud, label: "Cloud", copy: "Stored, then your bill is predicted." },
-  { icon: Smartphone, label: "App", copy: "You see it live on your phone." },
+  {
+    icon: PlugZap,
+    label: "Smart Plug",
+    copy: "Measures appliance-level energy use in real time.",
+  },
+  {
+    icon: Database,
+    label: "Database Storage",
+    copy: "Readings stream to MongoDB, filtered by plug, appliance, and whole-home use.",
+  },
+  {
+    icon: BrainCircuit,
+    label: "API & Machine Learning",
+    copy: "An API feeds the app, drives bill prediction (linear regression), and flags personalized savings.",
+  },
+  {
+    icon: Smartphone,
+    label: "Mobile App",
+    copy: "Monitor appliances, track usage, and get live insights.",
+  },
 ];
 
 const stack = [
@@ -61,9 +78,34 @@ function TechStack() {
   );
 }
 
+/** One borderless pipeline node: icon tile, step number, label, one-line copy. */
+function StepNode({
+  icon,
+  label,
+  copy,
+  index,
+}: {
+  icon: typeof PlugZap;
+  label: string;
+  copy: string;
+  index: number;
+}) {
+  return (
+    <div className="flex w-full flex-col items-center text-center md:w-44">
+      <IconTile icon={icon} label={label} />
+      <span className="mt-3 font-display text-xs font-bold text-ink/30">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <h3 className="mt-1 font-display text-lg font-semibold">{label}</h3>
+      <p className="mt-1 text-sm text-ink/55">{copy}</p>
+    </div>
+  );
+}
+
 /**
- * Panel 3. Four-step IoT pipeline (Sensor → Gateway → Cloud → App) plus
- * tech-stack badges. Heading, step cards, and badges each reveal in cascade.
+ * Panel 3. Four-step IoT pipeline (Smart Plug → Database → API & ML → App)
+ * wired together with animated circuit traces, plus tech-stack badges.
+ * Heading, wired flow, and badges each reveal in cascade.
  */
 export function HowItWorks() {
   return (
@@ -76,26 +118,19 @@ export function HowItWorks() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+      <RevealGroup className="mt-10 flex flex-col items-center sm:mt-12 md:flex-row md:items-start md:justify-between">
         {steps.map((s, i) => (
-          <Reveal key={s.label} className="h-full">
-            <motion.div
-              whileHover={{ y: -6 }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="group h-full rounded-2xl border border-ink/10 bg-paper p-5 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20 hover:shadow-xl hover:shadow-ink/10 sm:p-6"
-            >
-              <div className="flex items-center gap-3">
-                <span className="font-display text-sm font-bold text-ink/30 transition-colors group-hover:text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <IconTile icon={s.icon} label={s.label} />
-              </div>
-              <h3 className="mt-4 font-display text-xl font-semibold">
-                {s.label}
-              </h3>
-              <p className="mt-1 text-sm text-ink/55">{s.copy}</p>
-            </motion.div>
-          </Reveal>
+          <Fragment key={s.label}>
+            <Reveal className="w-full md:w-auto md:shrink-0">
+              <StepNode
+                icon={s.icon}
+                label={s.label}
+                copy={s.copy}
+                index={i}
+              />
+            </Reveal>
+            {i < steps.length - 1 && <Wire delay={i * 600} />}
+          </Fragment>
         ))}
       </RevealGroup>
 
