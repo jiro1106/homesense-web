@@ -1,6 +1,7 @@
-import { useCallback, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Panel } from "./Panel";
 import { Reveal, RevealGroup } from "../Reveal";
 import screen1 from "../../assets/bare-app-screen-1.png";
@@ -35,6 +36,19 @@ const screens = [
 export function AppGallery() {
   const reduced = useReducedMotion();
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  /** The thumbnail that opened the lightbox, so focus can return to it. */
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const openAt = useCallback((index: number, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
+    setActiveIndex(index);
+  }, []);
+
+  const close = useCallback(() => {
+    setActiveIndex(null);
+    triggerRef.current?.focus();
+  }, []);
 
   const page = useCallback(
     (dir: 1 | -1) => {
@@ -89,28 +103,155 @@ export function AppGallery() {
         </CarouselButton>
         <div
           ref={viewportRef}
-          className="snap-x snap-mandatory overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)] [&::-webkit-scrollbar]:hidden"
+          className="snap-x snap-mandatory overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)] [&::-webkit-scrollbar]:hidden"
         >
           <RevealGroup className="flex w-max gap-5">
-            {screens.map((screen) => (
+            {screens.map((screen, i) => (
               <Reveal
                 key={screen.src}
                 className="aspect-9/19 h-[clamp(18rem,52vh,32rem)] shrink-0 snap-start"
               >
-                <motion.img
+                <motion.button
+                  type="button"
                   data-card
                   whileHover={hoverLift}
                   transition={liftSpring}
-                  src={screen.src}
-                  alt={screen.alt}
-                  className="h-full w-full rounded-2xl border border-ink/10 object-cover shadow-lg shadow-ink/10"
-                />
+                  onClick={(e) => openAt(i, e.currentTarget)}
+                  aria-label={`Enlarge ${screen.alt}`}
+                  className="block h-full w-full cursor-pointer rounded-2xl"
+                >
+                  <img
+                    src={screen.src}
+                    alt={screen.alt}
+                    className="h-full w-full rounded-2xl border border-ink/10 object-cover shadow-lg shadow-ink/10"
+                  />
+                </motion.button>
               </Reveal>
             ))}
           </RevealGroup>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activeIndex !== null && (
+          <Lightbox
+            index={activeIndex}
+            reduced={!!reduced}
+            onClose={close}
+            onNavigate={(next) =>
+              setActiveIndex((screens.length + next) % screens.length)
+            }
+          />
+        )}
+      </AnimatePresence>
     </Panel>
+  );
+}
+
+type LightboxProps = {
+  index: number;
+  reduced: boolean;
+  onClose: () => void;
+  onNavigate: (nextIndex: number) => void;
+};
+
+/**
+ * Fullscreen preview of a single screen. Dark, blurred scrim over the rest of
+ * the site; prev/next page through all screens (looping), and the overlay,
+ * Esc, or the X button all dismiss it. Locks body scroll and traps initial
+ * focus while open.
+ *
+ * Rendered through a portal to document.body so its `position: fixed` is
+ * relative to the viewport. The showcase track is a transformed ancestor
+ * (translateX + will-change), which would otherwise become the containing
+ * block and push this overlay off-screen.
+ */
+function Lightbox({ index, reduced, onClose, onNavigate }: LightboxProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const screen = screens[index];
+
+  // Keyboard: Esc closes, arrows navigate.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") onNavigate(index + 1);
+      else if (e.key === "ArrowLeft") onNavigate(index - 1);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [index, onClose, onNavigate]);
+
+  // Lock body scroll while open.
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  // Move focus into the dialog on open.
+  useEffect(() => {
+    dialogRef.current?.focus();
+  }, []);
+
+  const fade = reduced ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } };
+  const pop = reduced
+    ? {}
+    : {
+        initial: { opacity: 0, scale: 0.96 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.96 },
+      };
+
+  return createPortal(
+    <motion.div
+      {...fade}
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={screen.alt}
+      tabIndex={-1}
+      onClick={(e) => {
+        // Only a click on the scrim itself dismisses; clicks on the image or
+        // controls bubble up here but must not close.
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 p-4 backdrop-blur-md outline-none"
+    >
+      <CarouselButton
+        label="Previous screen"
+        onClick={() => onNavigate(index - 1)}
+        className="left-2 sm:left-5"
+      >
+        <ChevronLeft className="h-5 w-5" aria-hidden />
+      </CarouselButton>
+      <CarouselButton
+        label="Next screen"
+        onClick={() => onNavigate(index + 1)}
+        className="right-2 sm:right-5"
+      >
+        <ChevronRight className="h-5 w-5" aria-hidden />
+      </CarouselButton>
+
+      <button
+        type="button"
+        aria-label="Close preview"
+        onClick={onClose}
+        className="absolute right-3 top-3 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-paper/20 bg-paper/10 text-paper transition hover:bg-paper/20 active:scale-95"
+      >
+        <X className="h-5 w-5" aria-hidden />
+      </button>
+
+      <motion.img
+        {...pop}
+        key={screen.src}
+        src={screen.src}
+        alt={screen.alt}
+        className="max-h-[85vh] w-auto rounded-2xl object-contain shadow-2xl shadow-ink/40"
+      />
+    </motion.div>,
+    document.body
   );
 }
 

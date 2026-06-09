@@ -3,6 +3,7 @@ import { YellowButton } from "../YellowButton";
 import { Reveal, RevealGroup } from "../Reveal";
 import { DOWNLOAD_APK_URL } from "../../lib/links";
 import phoneHero from "../../assets/app-screen-1.png";
+import smartPlug from "../../assets/smartplug.png";
 
 /**
  * Panel 1. Big tagline on the left, phone mockup on the right (stacked on
@@ -27,12 +28,19 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <Reveal className="hidden md:flex md:justify-end">
-          <img
-            src={phoneHero}
-            alt="HomeSense app running on a phone"
-            className="aspect-9/19 w-64 object-contain sm:w-72 lg:w-80"
-          />
+        <Reveal className="flex justify-center md:justify-end">
+          <div className="relative">
+            <img
+              src={phoneHero}
+              alt="HomeSense app running on a phone"
+              className="aspect-9/19 w-64 object-contain sm:w-72 lg:w-80"
+            />
+            <img
+              src={smartPlug}
+              alt="HomeSense smart plug"
+              className="absolute -bottom-3 -right-32 w-40 -rotate-30 object-contain sm:w-50 lg:w-60"
+            />
+          </div>
         </Reveal>
       </RevealGroup>
     </Panel>
