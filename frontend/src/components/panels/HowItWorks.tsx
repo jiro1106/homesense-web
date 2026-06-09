@@ -97,7 +97,7 @@ function StepNode({
       <span className="mt-3 font-display text-xs font-bold text-ink/30">
         {String(index + 1).padStart(2, "0")}
       </span>
-      <h3 className="mt-1 font-display text-lg font-semibold text-balance md:flex md:min-h-14 md:items-center">{label}</h3>
+      <h3 className="mt-1 font-display text-lg font-semibold text-balance md:flex md:min-h-14 md:items-center md:justify-center">{label}</h3>
       <p className="mt-1 text-sm text-ink/55">{copy}</p>
     </div>
   );
