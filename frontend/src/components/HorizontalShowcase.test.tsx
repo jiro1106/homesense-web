@@ -13,7 +13,7 @@ describe("HorizontalShowcase", () => {
       screen.getByRole("heading", { name: /how it works/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /a thesis project/i })
+      screen.getByRole("heading", { name: /electricity monitoring system/i })
     ).toBeInTheDocument();
   });
 });
