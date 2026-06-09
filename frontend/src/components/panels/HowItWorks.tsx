@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
 import { PlugZap, Database, BrainCircuit, Smartphone } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Panel } from "./Panel";
 import { IconTile } from "../IconTile";
 import { Reveal, RevealGroup } from "../Reveal";
@@ -85,18 +86,18 @@ function StepNode({
   copy,
   index,
 }: {
-  icon: typeof PlugZap;
+  icon: LucideIcon;
   label: string;
   copy: string;
   index: number;
 }) {
   return (
-    <div className="flex w-full flex-col items-center text-center md:w-44">
+    <div className="flex w-full flex-col items-center text-center md:w-48">
       <IconTile icon={icon} label={label} />
       <span className="mt-3 font-display text-xs font-bold text-ink/30">
         {String(index + 1).padStart(2, "0")}
       </span>
-      <h3 className="mt-1 font-display text-lg font-semibold">{label}</h3>
+      <h3 className="mt-1 font-display text-lg font-semibold text-balance md:flex md:min-h-14 md:items-center">{label}</h3>
       <p className="mt-1 text-sm text-ink/55">{copy}</p>
     </div>
   );
@@ -104,8 +105,8 @@ function StepNode({
 
 /**
  * Panel 3. Four-step IoT pipeline (Smart Plug → Database → API & ML → App)
- * wired together with animated circuit traces, plus tech-stack badges.
- * Heading, wired flow, and badges each reveal in cascade.
+ * with tech-stack badges. The heading, step nodes, and tech-stack badges each
+ * reveal in cascade; nodes are connected by decorative animated wire traces.
  */
 export function HowItWorks() {
   return (
