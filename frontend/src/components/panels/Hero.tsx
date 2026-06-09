@@ -12,22 +12,22 @@ export function Hero() {
   return (
     <Panel>
       <RevealGroup className="grid items-center gap-12 md:grid-cols-2 md:gap-8">
-        <Reveal>
+        <Reveal className="text-center md:text-left">
           <h1 className="mt-4 font-display text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
             Monitor every watt at home
           </h1>
-          <p className="mt-6 max-w-md text-lg text-ink/60">
+          <p className="mx-auto mt-6 max-w-md text-lg text-ink/60 md:mx-0">
             See exactly how much electricity your home is using, live, right on
             your phone.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center md:justify-start">
             <YellowButton href={DOWNLOAD_APK_URL} target="_blank">
               Download APK
             </YellowButton>
           </div>
         </Reveal>
 
-        <Reveal className="flex justify-center md:justify-end">
+        <Reveal className="hidden md:flex md:justify-end">
           <img
             src={phoneHero}
             alt="HomeSense app running on a phone"

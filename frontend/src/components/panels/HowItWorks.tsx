@@ -32,7 +32,10 @@ function TechStack() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-wrap gap-3" onMouseLeave={() => setHovered(null)}>
+    <div
+      className="flex flex-wrap justify-center gap-3 md:justify-start"
+      onMouseLeave={() => setHovered(null)}
+    >
       {stack.map((tech) => {
         const isActive = hovered === tech;
         const isDimmed = hovered !== null && !isActive;
@@ -65,7 +68,7 @@ function TechStack() {
 export function HowItWorks() {
   return (
     <Panel>
-      <RevealGroup>
+      <RevealGroup className="text-center md:text-left">
         <Reveal>
           <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
             How it works
@@ -73,13 +76,13 @@ export function HowItWorks() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <RevealGroup className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {steps.map((s, i) => (
           <Reveal key={s.label} className="h-full">
             <motion.div
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="group h-full rounded-2xl border border-ink/10 bg-paper p-6 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20 hover:shadow-xl hover:shadow-ink/10"
+              className="group h-full rounded-2xl border border-ink/10 bg-paper p-5 shadow-sm shadow-ink/3 transition-colors hover:border-ink/20 hover:shadow-xl hover:shadow-ink/10 sm:p-6"
             >
               <div className="flex items-center gap-3">
                 <span className="font-display text-sm font-bold text-ink/30 transition-colors group-hover:text-accent">
@@ -96,7 +99,7 @@ export function HowItWorks() {
         ))}
       </RevealGroup>
 
-      <RevealGroup className="mt-12">
+      <RevealGroup className="mt-10 text-center sm:mt-12 md:text-left">
         <Reveal>
           <p className="text-sm font-semibold uppercase tracking-wide text-ink/40">
             Built with

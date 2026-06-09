@@ -49,7 +49,7 @@ function LiveFeedTile() {
   const total = usage.reduce((sum, u) => sum + u, 0);
 
   return (
-    <Reveal className="h-full sm:col-span-2 sm:row-span-2 lg:col-span-6 lg:row-span-2">
+    <Reveal className="h-full sm:col-span-2 sm:row-span-2 md:col-span-6 md:row-span-2">
       <motion.div
         whileHover={hoverLift}
         transition={liftSpring}
@@ -65,7 +65,7 @@ function LiveFeedTile() {
             <thead>
               <tr className="text-[11px] font-semibold uppercase tracking-wide text-ink/40">
                 <th className="pb-1.5 font-semibold">Appliance</th>
-                <th className="hidden pb-1.5 font-semibold sm:table-cell">
+                <th className="hidden pb-1.5 font-semibold lg:table-cell">
                   Location
                 </th>
                 <th className="pb-1.5 font-semibold">Status</th>
@@ -76,7 +76,7 @@ function LiveFeedTile() {
               {APPLIANCES.map((a, i) => (
                 <tr key={a.name} className="border-t border-ink/5">
                   <td className="py-1.5 font-medium">{a.name}</td>
-                  <td className="hidden py-1.5 text-ink/55 sm:table-cell">
+                  <td className="hidden py-1.5 text-ink/55 lg:table-cell">
                     {a.location}
                   </td>
                   <td className="py-1.5">
@@ -122,7 +122,7 @@ function LiveFeedTile() {
 /** Wide tile (2×1): projected next bill with an upward forecast sparkline. */
 function BillPredictionTile() {
   return (
-    <Reveal className="h-full sm:col-span-2 lg:col-span-6">
+    <Reveal className="h-full sm:col-span-2 md:col-span-6">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <div className="flex h-full items-center justify-between gap-4">
           <div>
@@ -146,7 +146,7 @@ function BillPredictionTile() {
           </div>
           <svg
             viewBox="0 0 120 64"
-            className="hidden h-16 w-32 shrink-0 sm:block"
+            className="hidden h-16 w-32 shrink-0 lg:block"
             aria-hidden
           >
             {/* horizontal gridlines for the trend to read against */}
@@ -181,14 +181,14 @@ const TIPS = ["Run laundry off-peak", "Unplug idle chargers"];
 /** Wide tile (2×1): actionable saving tips rendered as chips. */
 function RecommendationsTile() {
   return (
-    <Reveal className="h-full sm:col-span-2 lg:col-span-6">
+    <Reveal className="h-full sm:col-span-2 md:col-span-6">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <div className="flex items-center gap-3">
           <IconTile icon={Lightbulb} label="Recommendations" size="sm" />
           <h3 className="font-display text-lg font-semibold">Recommendations</h3>
         </div>
         <p className="mt-3 text-sm text-ink/55">Smart tips to trim your usage.</p>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           {TIPS.map((tip) => (
             <span
               key={tip}
@@ -214,7 +214,7 @@ const smallTiles: SmallTile[] = [
 /** Minor tier (1×1): the supporting features. */
 function MiniTile({ icon, label, copy }: SmallTile) {
   return (
-    <Reveal className="h-full lg:col-span-4">
+    <Reveal className="h-full md:col-span-4">
       <motion.div whileHover={hoverLift} transition={liftSpring} className={tileBase}>
         <IconTile icon={icon} label={label} size="sm" />
         <div className="mt-3">
@@ -235,20 +235,20 @@ function MiniTile({ icon, label, copy }: SmallTile) {
 export function ProductBento() {
   return (
     <Panel>
-      <RevealGroup>
+      <RevealGroup className="text-center md:text-left">
         <Reveal>
           <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
             The app
           </h2>
         </Reveal>
-        <Reveal className="mt-3 max-w-md">
+        <Reveal className="mx-auto mt-3 max-w-md md:mx-0">
           <p className="text-ink/60">
             Everything your household's energy is doing, in one place.
           </p>
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup className="mt-[clamp(1.5rem,4vh,2.5rem)] grid auto-rows-[minmax(88px,1fr)] grid-flow-dense grid-cols-1 gap-[clamp(0.75rem,1.6vh,1rem)] sm:grid-cols-2 md:auto-rows-[minmax(88px,clamp(8rem,18vh,10.5rem))] lg:grid-cols-12">
+      <RevealGroup className="mt-[clamp(1.5rem,4vh,2.5rem)] grid auto-rows-min grid-flow-dense grid-cols-1 gap-[clamp(0.75rem,1.6vh,1rem)] sm:grid-cols-2 md:auto-rows-[minmax(88px,clamp(8rem,20vh,12rem))] md:grid-cols-12 lg:auto-rows-[minmax(88px,clamp(8rem,18vh,10.5rem))]">
         <LiveFeedTile />
         <BillPredictionTile />
         <RecommendationsTile />

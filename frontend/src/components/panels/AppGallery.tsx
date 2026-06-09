@@ -59,13 +59,13 @@ export function AppGallery() {
 
   return (
     <Panel>
-      <RevealGroup>
+      <RevealGroup className="text-center md:text-left">
         <Reveal>
           <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
             See it in action
           </h2>
         </Reveal>
-        <Reveal className="mt-3 max-w-md">
+        <Reveal className="mx-auto mt-3 max-w-md md:mx-0">
           <p className="text-ink/60">
             A look at the screens you'll live in every day.
           </p>
