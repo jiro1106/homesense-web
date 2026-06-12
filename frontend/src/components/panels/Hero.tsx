@@ -29,17 +29,26 @@ export function Hero() {
         </Reveal>
 
         <Reveal className="flex justify-center md:justify-end">
-          <div className="relative">
-            <img
-              src={phoneHero}
-              alt="HomeSense app running on a phone"
-              className="aspect-9/19 w-64 object-contain sm:w-72 lg:w-80"
-            />
-            <img
-              src={smartPlug}
-              alt="HomeSense smart plug"
-              className="absolute -bottom-3 -right-32 w-40 -rotate-30 object-contain sm:w-50 lg:w-60"
-            />
+          <div className="flex justify-center">
+            <div className="relative flex justify-center sm:flex-row sm:items-end">
+              {/* Phone */}
+              <div className="z-10">
+                <img
+                  src={phoneHero}
+                  alt="HomeSense app running on a phone"
+                  className="aspect-9/19 w-64 object-contain sm:w-72 lg:w-80"
+                />
+              </div>
+
+              {/* Smart plug */}
+              <div className="absolute -bottom-4 -right-12 z-20 rotate-0 sm:relative sm:bottom-auto sm:right-auto sm:-ml-20 sm:translate-y-4 lg:-ml-24">
+                <img
+                  src={smartPlug}
+                  alt="HomeSense smart plug"
+                  className="w-28 -rotate-30 object-contain sm:w-50 lg:w-60"
+                />
+              </div>
+            </div>
           </div>
         </Reveal>
       </RevealGroup>

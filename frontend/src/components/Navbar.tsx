@@ -5,7 +5,12 @@ import logoBulb from "../assets/logo.png";
 /** Android robot glyph, sized to sit inline before the button label. */
 function AndroidIcon({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+      className={className}
+    >
       <path d="M17.6 9.48 19 7.05a.5.5 0 0 0-.18-.68.5.5 0 0 0-.68.18l-1.42 2.46A8.7 8.7 0 0 0 12 8a8.7 8.7 0 0 0-4.72 1.01L5.86 6.55a.5.5 0 0 0-.68-.18.5.5 0 0 0-.18.68l1.4 2.43A8.06 8.06 0 0 0 3 16h18a8.06 8.06 0 0 0-3.4-6.52ZM8 13.75a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm8 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
     </svg>
   );
@@ -50,9 +55,9 @@ export function Navbar({ onHome }: NavbarProps = {}) {
         <YellowButton
           href={DOWNLOAD_APK_URL}
           target="_blank"
-          className="gap-2 px-5 py-2.5 text-sm"
+          className="gap-1.5 px-3 py-1.5 text-xs sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
         >
-          <AndroidIcon className="h-5 w-5" />
+          <AndroidIcon className="h-4 w-4 sm:h-5 sm:w-5" />
           Download APK
         </YellowButton>
       </nav>
