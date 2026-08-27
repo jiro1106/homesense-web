@@ -1,7 +1,7 @@
 import { Panel } from "./Panel";
 import { YellowButton } from "../YellowButton";
 import { Reveal, RevealGroup } from "../Reveal";
-import { DOWNLOAD_APK_URL } from "../../lib/links";
+import { DOWNLOAD_APK_URL, PORTFOLIO_URL } from "../../lib/links";
 import phoneHero from "../../assets/app-screen-1.png";
 import smartPlug from "../../assets/smartplug.png";
 
@@ -26,6 +26,17 @@ export function Hero() {
               Download APK
             </YellowButton>
           </div>
+          <p className="mt-5 text-xs text-ink/45">
+            Web preview built and designed by{" "}
+            <a
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-ink/70 underline decoration-ink/20 underline-offset-2 transition-colors hover:text-ink hover:decoration-ink/50"
+            >
+              Jiro Layug
+            </a>
+          </p>
         </Reveal>
 
         <Reveal className="flex justify-center md:justify-end">
