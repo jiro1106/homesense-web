@@ -2,7 +2,7 @@
 
 [Live demo](https://homesense-web.vercel.app/)
 
-This README is a project document for **HomeSense**, a household electricity-monitoring thesis project. This repository contains the responsive **web showcase** only; it presents the product experience and mobile-app interface, while the mobile app, data collection, and backend services are separate parts of the full system.
+This repository contains the **web showcase** only.This README is a project document for **HomeSense**, a household electricity-monitoring thesis project. It presents the product experience and mobile-app interface, while the mobile app, data collection, and backend services are separate parts of the full system.
 
 ![HomeSense dashboard preview](frontend/src/assets/thumbnail.png)
 
