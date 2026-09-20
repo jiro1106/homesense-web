@@ -10,9 +10,9 @@ This README is a project document for **HomeSense**, a household electricity-mon
 
 Household electricity use is usually visible only after a bill arrives. That makes it hard to identify which appliances are consuming power, notice unusual spikes, or make small changes that lower costs.
 
-## What I built
+## Features
 
-I designed and built the web experience that presents the HomeSense product story and mobile-app interface. It demonstrates how a household can:
+This website presents the HomeSense product story and mobile-app interface. It demonstrates how a household can:
 
 - View real-time appliance usage by room and on/off status
 - Track total daily consumption in kWh
@@ -20,11 +20,19 @@ I designed and built the web experience that presents the HomeSense product stor
 - Review usage trends and estimated costs
 - Receive alerts for unusual consumption and practical energy-saving recommendations
 
+Web showcase built with React, Typescript and Tailwind.
+
+## What I contributed
+
+- Led a three-person thesis team in building a full-stack electricity-monitoring system using Tuya smart-plug telemetry to identify high-consumption appliances.
+- Built the Python telemetry collector and MongoDB data pipelines for per-appliance and household analytics, bill predictions, and rule-based energy-saving recommendations.
+- Architected the FastAPI backend and developed 15+ REST API endpoints for appliance monitoring, bill prediction, and recommendation workflows.
+
 ## How it works
 
-`Smart plug → data storage → HomeSense mobile app → web showcase`
+`Tuya smart plug → Python collector → MongoDB → FastAPI API → prediction and recommendation services → HomeSense mobile app`
 
-A smart plug is a small device placed between an appliance and its wall outlet; it measures the electricity that appliance uses. It captures appliance-level readings, which HomeSense organizes into a live feed, cost and usage summaries, bill predictions, alerts, and recommendations. This repository contains the standalone web showcase for the thesis concept.
+Tuya smart plugs capture appliance-level electricity readings, which a Python collector ingests into MongoDB. The FastAPI backend exposes the stored data to the mobile app and supports appliance monitoring, while prediction and recommendation services generate projected bills and personalized energy-saving guidance. This repository contains the standalone web showcase for the thesis concept.
 
 <table align="center">
   <tr><th>Live usage</th><th>Bill prediction</th><th>Usage history</th></tr>
@@ -45,13 +53,13 @@ A smart plug is a small device placed between an appliance and its wall outlet; 
 
 The full HomeSense system moves from appliance readings to a household-facing mobile experience. The layers below describe the project beyond this web showcase.
 
-| Layer | Technology | Responsibility |
-| --- | --- | --- |
-| 1. Data collection | Python | A collector script gathers appliance-level electricity readings from the monitoring hardware and prepares them for the rest of the system. |
-| 2. Data layer | MongoDB | Stores usage readings, device information, historical consumption, and the data needed for reporting and predictions. |
-| 3. Application API | FastAPI | Provides the backend API that connects stored energy data with the client application and exposes it in a usable format. |
-| 4. Bill prediction | Flask | Runs the bill-prediction service, turning consumption data into an estimated monthly electricity cost. |
-| 5. Mobile experience | React Native | Delivers the household-facing app for checking usage, projected costs, alerts, and energy-saving recommendations. |
+| Layer                | Technology   | Responsibility                                                                                                                             |
+| -------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1. Data collection   | Python       | A collector script gathers appliance-level electricity readings from the monitoring hardware and prepares them for the rest of the system. |
+| 2. Data layer        | MongoDB      | Stores usage readings, device information, historical consumption, and the data needed for reporting and predictions.                      |
+| 3. Application API   | FastAPI      | Provides the backend API that connects stored energy data with the client application and exposes it in a usable format.                   |
+| 4. Bill prediction   | Flask        | Runs the bill-prediction service, turning consumption data into an estimated monthly electricity cost.                                     |
+| 5. Mobile experience | React Native | Delivers the household-facing app for checking usage, projected costs, alerts, and energy-saving recommendations.                          |
 
 ## Live demo
 
