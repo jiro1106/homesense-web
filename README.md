@@ -2,7 +2,7 @@
 
 [Live demo](https://homesense-web.vercel.app/)
 
-A responsive web showcase for **HomeSense**, a household electricity-monitoring thesis project. It turns appliance-level energy data into an interface that helps households understand usage before the monthly bill arrives.
+This repository is a responsive **web showcase** for **HomeSense**, a household electricity-monitoring thesis project. It presents the product experience and mobile-app interface; the mobile app, data collection, and backend services are separate parts of the full system.
 
 ![HomeSense dashboard preview](frontend/src/assets/thumbnail.png)
 
@@ -41,13 +41,15 @@ A smart plug captures appliance-level readings. The HomeSense experience organiz
   </tr>
 </table>
 
-## Tech
+## HomeSense tech stack
 
-- React 19 + TypeScript
-- Vite
-- Tailwind CSS
-- Framer Motion
-- Lucide React
+| Layer | Technology |
+| --- | --- |
+| Mobile app | React Native |
+| Data collector | Python |
+| Backend & API | FastAPI |
+| Bill prediction | Flask |
+| Database | MongoDB |
 
 ## Run locally
 
