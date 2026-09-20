@@ -40,6 +40,7 @@ This website presents the HomeSense product story and mobile app interface. It d
   <strong>Prediction and recommendation services</strong><br />
   ↓<br />
   <strong>HomeSense mobile app</strong>
+  <br/>
 </div>
 
 This repository contains the standalone web showcase for the thesis concept.
