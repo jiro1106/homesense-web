@@ -28,31 +28,19 @@ This website presents the HomeSense product story and mobile app interface. It d
 
 ## How it works
 
-<table align="center">
-  <tr>
-    <td align="center"><strong>1. Tuya smart plug</strong><br />Captures appliance-level electricity readings.</td>
-  </tr>
-  <tr><td align="center">↓</td></tr>
-  <tr>
-    <td align="center"><strong>2. Python collector</strong><br />Ingests telemetry from the smart plugs.</td>
-  </tr>
-  <tr><td align="center">↓</td></tr>
-  <tr>
-    <td align="center"><strong>3. MongoDB</strong><br />Stores appliance and household energy data.</td>
-  </tr>
-  <tr><td align="center">↓</td></tr>
-  <tr>
-    <td align="center"><strong>4. FastAPI backend</strong><br />Exposes data and workflows through REST APIs.</td>
-  </tr>
-  <tr><td align="center">↓</td></tr>
-  <tr>
-    <td align="center"><strong>5. Prediction and recommendation services</strong><br />Generate projected bills and personalized energy-saving guidance.</td>
-  </tr>
-  <tr><td align="center">↓</td></tr>
-  <tr>
-    <td align="center"><strong>6. HomeSense mobile app</strong><br />Displays monitoring data, predictions, alerts, and recommendations.</td>
-  </tr>
-</table>
+```
+Tuya smart plug
+|
+Python collector
+|
+MongoDB
+|
+FastAPI backend
+|
+Prediction and recommendation services
+|
+HomeSense mobile app
+```
 
 This repository contains the standalone web showcase for the thesis concept.
 
