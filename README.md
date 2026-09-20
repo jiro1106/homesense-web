@@ -28,19 +28,19 @@ This website presents the HomeSense product story and mobile app interface. It d
 
 ## How it works
 
-```
-Tuya smart plug
-|
-Python collector
-|
-MongoDB
-|
-FastAPI backend
-|
-Prediction and recommendation services
-|
-HomeSense mobile app
-```
+<div align="center">
+  <strong>Tuya smart plug</strong><br />
+  ↓<br />
+  <strong>Python collector</strong><br />
+  ↓<br />
+  <strong>MongoDB</strong><br />
+  ↓<br />
+  <strong>FastAPI backend</strong><br />
+  ↓<br />
+  <strong>Prediction and recommendation services</strong><br />
+  ↓<br />
+  <strong>HomeSense mobile app</strong>
+</div>
 
 This repository contains the standalone web showcase for the thesis concept.
 
