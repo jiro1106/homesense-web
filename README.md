@@ -4,7 +4,7 @@
 
 A responsive web showcase for **HomeSense**, a household electricity-monitoring thesis project. It turns appliance-level energy data into an interface that helps households understand usage before the monthly bill arrives.
 
-![HomeSense dashboard preview](frontend/src/assets/app-screen-1.png)
+![HomeSense dashboard preview](frontend/src/assets/thumbnail.png)
 
 ## The problem
 
