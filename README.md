@@ -2,7 +2,7 @@
 
 [Live demo](https://homesense-web.vercel.app/)
 
-This repository is a responsive **web showcase** for **HomeSense**, a household electricity-monitoring thesis project. It presents the product experience and mobile-app interface; the mobile app, data collection, and backend services are separate parts of the full system.
+This README is a project document for **HomeSense**, a household electricity-monitoring thesis project. This repository contains the responsive **web showcase** only; it presents the product experience and mobile-app interface, while the mobile app, data collection, and backend services are separate parts of the full system.
 
 ![HomeSense dashboard preview](frontend/src/assets/thumbnail.png)
 
@@ -41,15 +41,17 @@ A smart plug captures appliance-level readings. The HomeSense experience organiz
   </tr>
 </table>
 
-## HomeSense tech stack
+## Full project architecture
 
-| Layer | Technology |
-| --- | --- |
-| Mobile app | React Native |
-| Data collector | Python |
-| Backend & API | FastAPI |
-| Bill prediction | Flask |
-| Database | MongoDB |
+The full HomeSense system moves from appliance readings to a household-facing mobile experience. The layers below describe the project beyond this web showcase.
+
+| Layer | Technology | Responsibility |
+| --- | --- | --- |
+| 1. Data collection | Python | A collector script gathers appliance-level electricity readings from the monitoring hardware and prepares them for the rest of the system. |
+| 2. Data layer | MongoDB | Stores usage readings, device information, historical consumption, and the data needed for reporting and predictions. |
+| 3. Application API | FastAPI | Provides the backend API that connects stored energy data with the client application and exposes it in a usable format. |
+| 4. Bill prediction | Flask | Runs the bill-prediction service, turning consumption data into an estimated monthly electricity cost. |
+| 5. Mobile experience | React Native | Delivers the household-facing app for checking usage, projected costs, alerts, and energy-saving recommendations. |
 
 ## Run locally
 
