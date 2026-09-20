@@ -2,7 +2,7 @@
 
 [Live demo](https://homesense-web.vercel.app/)
 
-This repository contains the **web showcase** only.This README is a project document for **HomeSense**, a household electricity-monitoring thesis project. It presents the product experience and mobile-app interface, while the mobile app, data collection, and backend services are separate parts of the full system.
+This repository contains the **web showcase** only. This README is a project document for **HomeSense**, a household electricity-monitoring thesis project. It presents the product experience and mobile-app interface, while the mobile app, data collection, and backend services are separate parts of the full system.
 
 ![HomeSense dashboard preview](frontend/src/assets/thumbnail.png)
 
@@ -12,15 +12,13 @@ Household electricity use is usually visible only after a bill arrives. That mak
 
 ## Features
 
-This website presents the HomeSense product story and mobile-app interface. It demonstrates how a household can:
+This website presents the HomeSense product story and mobile app interface. It demonstrates how a household can:
 
 - View real-time appliance usage by room and on/off status
 - Track total daily consumption in kWh
 - See a projected monthly bill in Philippine pesos
 - Review usage trends and estimated costs
 - Receive alerts for unusual consumption and practical energy-saving recommendations
-
-Web showcase built with React, Typescript and Tailwind.
 
 ## What I contributed
 
@@ -64,3 +62,5 @@ The full HomeSense system moves from appliance readings to a household-facing mo
 ## Live demo
 
 Visit [homesense-web.vercel.app](https://homesense-web.vercel.app/).
+
+Web showcase built with React, TypeScript, and Tailwind.
