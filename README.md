@@ -24,7 +24,7 @@ I designed and built the web experience that presents the HomeSense product stor
 
 `Smart plug → data storage → HomeSense mobile app → web showcase`
 
-A smart plug captures appliance-level readings. The HomeSense experience organizes those readings into a live feed, cost and usage summaries, bill predictions, alerts, and recommendations. This repository contains the standalone web showcase for the thesis concept.
+A smart plug is a small device placed between an appliance and its wall outlet; it measures the electricity that appliance uses. It captures appliance-level readings, which HomeSense organizes into a live feed, cost and usage summaries, bill predictions, alerts, and recommendations. This repository contains the standalone web showcase for the thesis concept.
 
 <table align="center">
   <tr><th>Live usage</th><th>Bill prediction</th><th>Usage history</th></tr>
@@ -52,26 +52,6 @@ The full HomeSense system moves from appliance readings to a household-facing mo
 | 3. Application API | FastAPI | Provides the backend API that connects stored energy data with the client application and exposes it in a usable format. |
 | 4. Bill prediction | Flask | Runs the bill-prediction service, turning consumption data into an estimated monthly electricity cost. |
 | 5. Mobile experience | React Native | Delivers the household-facing app for checking usage, projected costs, alerts, and energy-saving recommendations. |
-
-## Run locally
-
-Requirements: Node.js 18+ and npm.
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open the local URL printed by Vite (normally `http://localhost:5173`).
-
-### Useful commands
-
-```bash
-npm run build # production build
-npm run test # component tests
-npm run lint # lint the frontend
-```
 
 ## Live demo
 
