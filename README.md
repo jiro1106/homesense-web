@@ -26,7 +26,7 @@ I designed and built the web experience that presents the HomeSense product stor
 
 A smart plug captures appliance-level readings. The HomeSense experience organizes those readings into a live feed, cost and usage summaries, bill predictions, alerts, and recommendations. This repository contains the standalone web showcase for the thesis concept.
 
-![HomeSense app screens](frontend/src/assets/app-screen-2.png)
+<img src="frontend/src/assets/app-screen-2.png" alt="HomeSense dashboard preview" width="360" />
 
 ## Tech
 
