@@ -1,3 +1,5 @@
 
 # Superpowers brainstorming companion
 .superpowers/
+node_modules/
+.DS_Store
