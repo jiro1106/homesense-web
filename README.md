@@ -26,7 +26,11 @@ I designed and built the web experience that presents the HomeSense product stor
 
 A smart plug captures appliance-level readings. The HomeSense experience organizes those readings into a live feed, cost and usage summaries, bill predictions, alerts, and recommendations. This repository contains the standalone web showcase for the thesis concept.
 
-<img src="frontend/src/assets/app-screen-2.png" alt="HomeSense dashboard preview" width="360" />
+| Live usage | Bill prediction | Usage history |
+| :---: | :---: | :---: |
+| <img src="frontend/src/assets/bare-app-screen-1.png" alt="HomeSense live usage screen" width="150" /> | <img src="frontend/src/assets/bare-app-screen-2.png" alt="HomeSense bill prediction screen" width="150" /> | <img src="frontend/src/assets/bare-app-screen-3.png" alt="HomeSense usage history screen" width="150" /> |
+| Device details | Recommendations | Alerts |
+| <img src="frontend/src/assets/bare-app-screen-4.png" alt="HomeSense device details screen" width="150" /> | <img src="frontend/src/assets/bare-app-screen-5.png" alt="HomeSense recommendations screen" width="150" /> | <img src="frontend/src/assets/bare-app-screen-6.png" alt="HomeSense alerts screen" width="150" /> |
 
 ## Tech
 
@@ -51,9 +55,9 @@ Open the local URL printed by Vite (normally `http://localhost:5173`).
 ### Useful commands
 
 ```bash
-npm run build  # production build
-npm run test   # component tests
-npm run lint   # lint the frontend
+npm run build # production build
+npm run test # component tests
+npm run lint # lint the frontend
 ```
 
 ## Live demo
