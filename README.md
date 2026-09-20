@@ -41,8 +41,10 @@ This website presents the HomeSense product story and mobile app interface. It d
   ↓<br />
   <strong>HomeSense mobile app</strong>
 </div>
-<br/>
-This repository contains the standalone web showcase for the thesis concept.
+
+<p align="center">This repository contains the standalone web showcase for the thesis concept.</p>
+
+<br />
 
 <table align="center">
   <tr><th>Live usage</th><th>Bill prediction</th><th>Usage history</th></tr>
