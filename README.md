@@ -15,10 +15,10 @@ Household electricity use is usually visible only after a bill arrives. That mak
 This website presents the HomeSense product story and mobile app interface. It demonstrates how a household can:
 
 - View real-time appliance usage by room and on/off status
-- Track total daily consumption in kWh
-- See a projected monthly bill in Philippine pesos
+- Track total daily, weekly, and monthly consumption in kWh
+- See a projected monthly bill for next month in Philippine pesos
 - Review usage trends and estimated costs
-- Receive alerts for unusual consumption and practical energy-saving recommendations
+- Receive alerts for unusual consumption and practical energy-saving recommendations for high-consuming appliances
 
 ## What I contributed
 
