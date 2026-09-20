@@ -28,9 +28,33 @@ This website presents the HomeSense product story and mobile app interface. It d
 
 ## How it works
 
-`Tuya smart plug → Python collector → MongoDB → FastAPI API → prediction and recommendation services → HomeSense mobile app`
+<table align="center">
+  <tr>
+    <td align="center"><strong>1. Tuya smart plug</strong><br />Captures appliance-level electricity readings.</td>
+  </tr>
+  <tr><td align="center">↓</td></tr>
+  <tr>
+    <td align="center"><strong>2. Python collector</strong><br />Ingests telemetry from the smart plugs.</td>
+  </tr>
+  <tr><td align="center">↓</td></tr>
+  <tr>
+    <td align="center"><strong>3. MongoDB</strong><br />Stores appliance and household energy data.</td>
+  </tr>
+  <tr><td align="center">↓</td></tr>
+  <tr>
+    <td align="center"><strong>4. FastAPI backend</strong><br />Exposes data and workflows through REST APIs.</td>
+  </tr>
+  <tr><td align="center">↓</td></tr>
+  <tr>
+    <td align="center"><strong>5. Prediction and recommendation services</strong><br />Generate projected bills and personalized energy-saving guidance.</td>
+  </tr>
+  <tr><td align="center">↓</td></tr>
+  <tr>
+    <td align="center"><strong>6. HomeSense mobile app</strong><br />Displays monitoring data, predictions, alerts, and recommendations.</td>
+  </tr>
+</table>
 
-Tuya smart plugs capture appliance-level electricity readings, which a Python collector ingests into MongoDB. The FastAPI backend exposes the stored data to the mobile app and supports appliance monitoring, while prediction and recommendation services generate projected bills and personalized energy-saving guidance. This repository contains the standalone web showcase for the thesis concept.
+This repository contains the standalone web showcase for the thesis concept.
 
 <table align="center">
   <tr><th>Live usage</th><th>Bill prediction</th><th>Usage history</th></tr>
